@@ -120,3 +120,7 @@ python -c "from Main import app; c=app.test_client(); print(c.get('/').status_co
 ## Search and Filtering
 
 The dashboard search matches model names, categories, and Mustang generations. Category filters are combined with search text and the favorites-only control.
+
+## Catalog Sorting
+
+The collection can be ordered by catalog position, name, newest model year, oldest model year, horsepower, or recorded 0-60 mph time.
