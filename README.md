@@ -116,3 +116,7 @@ Before deploying changes, verify the main routes:
 ```bash
 python -c "from Main import app; c=app.test_client(); print(c.get('/').status_code, c.get('/dashboard').status_code)"
 ```
+
+## Search and Filtering
+
+The dashboard search matches model names, categories, and Mustang generations. Category filters are combined with search text and the favorites-only control.
