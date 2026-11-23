@@ -1,6 +1,24 @@
 # Ford Performance Showcase
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-2563eb)](https://mycars-five.vercel.app)
+[![Python](https://img.shields.io/badge/Python-3.12-3776ab)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.1.2-000000)](https://flask.palletsprojects.com/)
+
 A responsive Ford vehicle showcase built with Flask, HTML, CSS, and JavaScript. It presents 71 Ford vehicles, including classic muscle cars, modern performance models, SUVs, trucks, rally cars, concepts, and electric vehicles.
+
+**Live website:** https://mycars-five.vercel.app
+
+## Overview
+
+Ford Performance Showcase is a curated web catalog for exploring Ford's heritage and modern engineering. The experience combines editorial-style presentation with interactive browsing tools, including filtering, search, favorites, comparisons, generation grouping, and vehicle detail modals.
+
+## Technology Stack
+
+- Python and Flask for routes and server-side templates
+- Jinja2 and HTML5 for page structure
+- CSS custom properties and responsive layouts
+- Vanilla JavaScript for catalog and modal interactions
+- Vercel for serverless deployment
 
 ## Features
 
@@ -69,3 +87,32 @@ vercel --prod
 ## Data and Sources
 
 Vehicle specifications and source links are stored in `static/js/site.js`. Some model entries use locally available placeholder specification values and provide source links for further reference.
+
+## Collection Coverage
+
+The catalog includes recognizable Ford icons across the following eras and categories:
+
+- 1965 to 2028 Mustang models
+- Classic American and Australian performance vehicles
+- Modern performance cars and hot hatches
+- Trucks and off-road SUVs
+- Rally and motorsport vehicles
+- Electric and hybrid performance
+- Concept and showcase models
+
+## Accessibility
+
+- Semantic page landmarks and navigation labels
+- Keyboard focus indicators
+- Modal dialog behavior with close controls
+- Descriptive image alternatives
+- Reduced-motion support
+- Touch-specific behavior that avoids sticky hover effects
+
+## Verification
+
+Before deploying changes, verify the main routes:
+
+```bash
+python -c "from Main import app; c=app.test_client(); print(c.get('/').status_code, c.get('/dashboard').status_code)"
+```
