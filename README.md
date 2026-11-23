@@ -148,3 +148,7 @@ The interface follows the saved theme preference when available and otherwise us
 ## Responsive Layout
 
 The sidebar becomes a horizontal category selector on smaller screens. Catalog cards switch from grid layouts to a reduced-width mobile layout.
+
+## Image Handling
+
+Catalog cards use lazy-loaded images and fall back to a local Mustang placeholder when an external or local image cannot be loaded.
