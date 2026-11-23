@@ -132,3 +132,7 @@ Favorite selections are stored in the browser with local storage. The Favorites 
 ## Vehicle Comparison
 
 Users can select up to three vehicles and open a comparison modal that combines engine, power, year, acceleration, and feature information.
+
+## Vehicle Detail Modal
+
+Selecting a vehicle opens a focused detail view with an image, performance specifications, description, highlights, and a reference source link.
