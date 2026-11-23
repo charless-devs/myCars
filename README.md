@@ -160,3 +160,7 @@ The landing page includes an autoplaying hero video and a short introduction seq
 ## Motion Preferences
 
 The interface checks the reduced-motion preference and disables or shortens animated reveals and scrolling effects where appropriate.
+
+## Vehicle Data
+
+Vehicle models, specifications, descriptions, categories, image paths, and source links are maintained in static/site.js.
