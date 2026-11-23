@@ -180,3 +180,7 @@ Add a vehicle by extending the cars array or Mustang model list in static/site.j
 ## Local Verification
 
 Run the Flask test client to verify the home and dashboard routes return successful responses before committing UI changes.
+
+## Maintenance
+
+Keep route names, template references, static image paths, and Vercel configuration synchronized when moving or renaming project resources.
