@@ -156,3 +156,7 @@ Catalog cards use lazy-loaded images and fall back to a local Mustang placeholde
 ## Hero Media
 
 The landing page includes an autoplaying hero video and a short introduction sequence that can be skipped or muted by the visitor.
+
+## Motion Preferences
+
+The interface checks the reduced-motion preference and disables or shortens animated reveals and scrolling effects where appropriate.
