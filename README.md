@@ -124,3 +124,7 @@ The dashboard search matches model names, categories, and Mustang generations. C
 ## Catalog Sorting
 
 The collection can be ordered by catalog position, name, newest model year, oldest model year, horsepower, or recorded 0-60 mph time.
+
+## Favorites
+
+Favorite selections are stored in the browser with local storage. The Favorites view hides all models that are not in the saved list.
