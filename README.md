@@ -172,3 +172,7 @@ Where exact specifications have not been supplied, the interface displays Not pr
 ## Error Pages
 
 Flask 404 and 500 handlers use a branded Ford error template instead of displaying framework traceback pages.
+
+## Customizing the Catalog
+
+Add a vehicle by extending the cars array or Mustang model list in static/site.js, then provide matching category and image information.
