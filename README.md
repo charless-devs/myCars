@@ -152,3 +152,7 @@ The sidebar becomes a horizontal category selector on smaller screens. Catalog c
 ## Image Handling
 
 Catalog cards use lazy-loaded images and fall back to a local Mustang placeholder when an external or local image cannot be loaded.
+
+## Hero Media
+
+The landing page includes an autoplaying hero video and a short introduction sequence that can be skipped or muted by the visitor.
