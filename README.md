@@ -168,3 +168,7 @@ Vehicle models, specifications, descriptions, categories, image paths, and sourc
 ## Missing Specification Data
 
 Where exact specifications have not been supplied, the interface displays Not provided instead of presenting unsupported estimated values.
+
+## Error Pages
+
+Flask 404 and 500 handlers use a branded Ford error template instead of displaying framework traceback pages.
