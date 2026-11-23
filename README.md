@@ -164,3 +164,7 @@ The interface checks the reduced-motion preference and disables or shortens anim
 ## Vehicle Data
 
 Vehicle models, specifications, descriptions, categories, image paths, and source links are maintained in static/site.js.
+
+## Missing Specification Data
+
+Where exact specifications have not been supplied, the interface displays Not provided instead of presenting unsupported estimated values.
