@@ -1,0 +1,6 @@
+Add Mustang model images to this folder as JPG files.
+
+Name each file after its full model title in lowercase, replacing spaces and punctuation with hyphens.
+Example: 2028-ford-mustang-gtd-1901-edition.jpg
+
+Cards will show the included placeholder until a matching image file is added.

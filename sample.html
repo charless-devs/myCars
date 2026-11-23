@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ford Performance — The Collection (1965–2028)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: '#0B0D11',
+            surface: '#12151C',
+            surfaceHover: '#181C26',
+            fordBlue: '#2563EB',
+            fordBlueHover: '#1D4ED8',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg-base: #0B0D11;
+      --bg-surface: #12151C;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --accent-blue: #2563EB;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: #F3F4F6;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0B0D11; }
+    ::-webkit-scrollbar-thumb { background: #262B36; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3B4252; }
+
+    /* Standardized 16:10 Image Container & Vignette */
+    .card-media {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background-color: #090A0E;
+    }
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .vehicle-card:hover .card-media img {
+      transform: scale(1.03);
+    }
+    .card-vignette {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(11, 13, 17, 0.15) 0%,
+        rgba(11, 13, 17, 0) 45%,
+        rgba(18, 21, 28, 0.92) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Audio Visualizer Bars */
+    @keyframes eqPulse {
+      0%, 100% { height: 20%; }
+      50% { height: 100%; }
+    }
+    .eq-bar {
+      width: 3px;
+      background-color: #3B82F6;
+      border-radius: 9999px;
+      height: 25%;
+      transition: height 0.15s ease;
+    }
+    .eq-playing .eq-bar:nth-child(1) { animation: eqPulse 0.45s infinite ease-in-out; }
+    .eq-playing .eq-bar:nth-child(2) { animation: eqPulse 0.32s infinite ease-in-out 0.1s; }
+    .eq-playing .eq-bar:nth-child(3) { animation: eqPulse 0.55s infinite ease-in-out 0.2s; }
+    .eq-playing .eq-bar:nth-child(4) { animation: eqPulse 0.38s infinite ease-in-out 0.05s; }
+    .eq-playing .eq-bar:nth-child(5) { animation: eqPulse 0.48s infinite ease-in-out 0.15s; }
+
+    /* Slide-over & Modal Transitions */
+    .drawer-backdrop {
+      transition: opacity 0.3s ease;
+    }
+    .drawer-panel {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .compare-dock {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-fordBlue selection:text-white">
+
+  <div class="min-h-screen flex flex-col lg:flex-row">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-full lg:w-72 lg:fixed lg:inset-y-0 lg:left-0 bg-surface border-b lg:border-b-0 lg:border-r border-white/[0.08] flex flex-col z-30">
+      <!-- Brand Header -->
+      <div class="p-6 border-b border-white/[0.08] flex items-center justify-between">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-fordBlue shadow-[0_0_10px_#2563EB]"></span>
+            <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-blue-400 font-semibold">1965 — 2028</span>
+          </div>
+          <h1 class="text-lg font-bold tracking-tight text-white mt-1">FORD PERFORMANCE</h1>
+          <p class="text-xs text-gray-400">The Heritage & Track Collection</p>
+        </div>
+
+        <!-- Master Audio Toggle -->
+        <button id="masterSoundBtn" title="Toggle Exhaust Synthesizer"
+          class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/[0.08] bg-obsidian/80 hover:border-white/20 text-xs font-mono transition-colors">
+          <span id="soundDot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span id="soundLabel" class="text-gray-300">SFX ON</span>
+        </button>
+      </div>
+
+      <!-- Category Navigation -->
+      <div class="p-4 flex-1 overflow-y-auto">
+        <div class="text-[11px] font-mono uppercase tracking-wider text-gray-500 px-3 mb-2">Classifications</div>
+        <nav id="categoryNav" class="space-y-1">
+          <!-- Populated dynamically with counts -->
+        </nav>
+
+        <!-- Saved Garage Quick Card -->
+        <div class="mt-8 p-4 rounded-xl bg-obsidian border border-white/[0.08]">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-semibold text-white">Saved Garage</span>
+            <span id="sidebarFavCount" class="text-xs font-mono text-blue-400 font-bold">0</span>
+          </div>
+          <p class="text-[11px] text-gray-400 leading-relaxed mb-3">
+            Bookmark icons across decades to curate your personal paddock.
+          </p>
+          <button id="sidebarFavBtn"
+            class="w-full py-2 px-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-medium text-gray-200 transition-colors flex items-center justify-center gap-2">
+            <svg class="w-3.5 h-3.5 text-rose-500 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <span>View Saved Garage</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer Telemetry -->
+      <div class="p-4 border-t border-white/[0.08] text-[11px] font-mono text-gray-500 flex items-center justify-between">
+        <span>ARCHIVE: 71 CHASSIS</span>
+        <span>SPEC v4.2</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT WORKSPACE -->
+    <main class="flex-1 lg:pl-72 flex flex-col min-h-screen">
+      
+      <!-- Sticky Top Controls Header -->
+      <header class="sticky top-0 z-20 bg-obsidian/90 backdrop-blur-md border-b border-white/[0.08] px-6 py-4">
+        <div class="max-w-7xl mx-auto space-y-3">
+          
+          <!-- Top Row: Search, Sort, Favorites, View Switcher -->
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Search Input -->
+            <div class="relative flex-1 min-w-[240px] max-w-md">
+              <svg class="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <input id="searchInput" type="text" placeholder="Search model, engine, year, or code..."
+                class="w-full bg-surface border border-white/[0.08] focus:border-fordBlue focus:outline-none rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-gray-500 transition-colors" />
+            </div>
+
+            <!-- Right Utility Controls -->
+            <div class="flex items-center gap-2.5 flex-wrap">
+              
+              <!-- Sort Dropdown -->
+              <div class="relative">
+                <select id="sortSelect"
+                  class="appearance-none bg-surface border border-white/[0.08] hover:border-white/20 rounded-lg pl-3.5 pr-9 py-2 text-xs font-medium text-gray-200 focus:outline-none focus:border-fordBlue cursor-pointer">
+                  <option value="year-desc">Sort: Year (Newest)</option>
+                  <option value="year-asc">Sort: Year (Oldest)</option>
+                  <option value="hp-desc">Sort: Horsepower (High → Low)</option>
+                  <option value="zero60-asc">Sort: 0–60 mph (Fastest)</option>
+                  <option value="name-asc">Sort: Name (A → Z)</option>
+                </select>
+                <svg class="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </div>
+
+              <!-- Favorites Filter Pill -->
+              <button id="favoritesFilterBtn"
+                class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface border border-white/[0.08] hover:border-white/20 text-xs font-medium text-gray-200 transition-all">
+                <svg id="favHeaderIcon" class="w-3.5 h-3.5 text-gray-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <span>FAVORITES</span>
+                <span id="headerFavCount" class="px-1.5 py-0.5 rounded bg-white/[0.08] font-mono text-[11px] text-white">0</span>
+              </button>
+
+              <!-- Grid / List Segmented Toggle -->
+              <div class="inline-flex rounded-lg bg-surface p-1 border border-white/[0.08]">
+                <button id="gridViewBtn"
+                  class="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-fordBlue text-white transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                  </svg>
+                  <span>GRID</span>
+                </button>
+                <button id="listViewBtn"
+                  class="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium text-gray-400 hover:text-white transition-colors">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                  </svg>
+                  <span>LIST</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Bottom Row: Decade / Era Filter Pills & Active Result Count -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+            <div id="eraPills" class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+              <!-- Decade pills injected via JS -->
+            </div>
+            <div class="text-xs font-mono text-gray-400">
+              Showing <span id="visibleCount" class="text-white font-semibold">0</span> vehicles
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- Main Grid / List Container -->
+      <section class="flex-1 px-6 py-6 max-w-7xl w-full mx-auto pb-28">
+        
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden py-20 text-center border border-dashed border-white/[0.08] rounded-2xl bg-surface/40">
+          <p class="text-base font-semibold text-white">No vehicles match your active filters</p>
+          <p class="text-xs text-gray-400 mt-1">Try clearing your search query, era filter, or saved garage toggle.</p>
+          <button id="resetFiltersBtn" class="mt-4 px-4 py-2 rounded-lg bg-fordBlue hover:bg-fordBlueHover text-xs font-medium text-white transition-colors">
+            Reset All Filters
+          </button>
+        </div>
+
+        <!-- 3-Column Card Grid -->
+        <div id="vehicleGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+
+        <!-- Compact Sortable Data Table (List View) -->
+        <div id="vehicleListWrapper" class="hidden overflow-x-auto rounded-xl border border-white/[0.08] bg-surface">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-white/[0.08] text-[11px] font-mono uppercase tracking-wider text-gray-400 bg-obsidian/60">
+                <th class="py-3.5 px-4">Vehicle</th>
+                <th class="py-3.5 px-4 cursor-pointer hover:text-white" data-sort="name">Model ↕</th>
+                <th class="py-3.5 px-4">Category</th>
+                <th class="py-3.5 px-4 cursor-pointer hover:text-white" data-sort="year">Year ↕</th>
+                <th class="py-3.5 px-4 cursor-pointer hover:text-white" data-sort="hp">HP ↕</th>
+                <th class="py-3.5 px-4 cursor-pointer hover:text-white" data-sort="zero60">0–60s ↕</th>
+                <th class="py-3.5 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="vehicleListBody" class="divide-y divide-white/[0.06] text-sm"></tbody>
+          </table>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- FLOATING COMPARISON DOCK (Bottom) -->
+  <div id="compareDock"
+    class="compare-dock fixed bottom-5 left-1/2 -translate-x-1/2 translate-y-32 opacity-0 pointer-events-none z-40 w-[95%] max-w-3xl bg-surface/95 backdrop-blur-xl border border-white/15 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] p-3.5">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+      
+      <!-- Selected Slots -->
+      <div id="compareSlots" class="flex items-center gap-2.5 flex-1 w-full overflow-x-auto">
+        <!-- Slots rendered dynamically -->
+      </div>
+
+      <!-- Dock Actions -->
+      <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-end">
+        <button id="clearCompareBtn"
+          class="px-3 py-2 rounded-lg text-xs font-medium text-gray-400 hover:text-white hover:bg-white/[0.06] transition-colors">
+          Clear
+        </button>
+        <button id="openCompareModalBtn"
+          class="px-4 py-2 rounded-lg bg-fordBlue hover:bg-fordBlueHover disabled:opacity-40 disabled:cursor-not-allowed text-xs font-semibold text-white shadow-lg shadow-blue-600/25 transition-all flex items-center gap-2">
+          <span>Compare Vehicles</span>
+          <span id="compareCountBadge" class="px-1.5 py-0.5 rounded bg-black/30 font-mono text-[11px]">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDE-BY-SIDE COMPARISON MODAL -->
+  <div id="compareModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="bg-surface border border-white/10 rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+      <div class="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
+        <div>
+          <span class="text-[11px] font-mono uppercase tracking-wider text-blue-400">Telemetry Benchmark</span>
+          <h2 class="text-lg font-bold text-white">Head-to-Head Specification Matrix</h2>
+        </div>
+        <button id="closeCompareModalBtn" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/[0.06]">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="compareModalContent" class="p-6 overflow-auto">
+        <!-- Comparison Matrix injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE-OVER VEHICLE DETAIL DRAWER -->
+  <div id="detailDrawerBackdrop" class="drawer-backdrop hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs opacity-0">
+    <div id="detailDrawerPanel"
+      class="drawer-panel fixed inset-y-0 right-0 w-full max-w-xl bg-surface border-l border-white/10 shadow-2xl translate-x-full flex flex-col overflow-hidden">
+      
+      <!-- Drawer Top Bar -->
+      <div class="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between bg-obsidian/60">
+        <div class="flex items-center gap-2">
+          <span id="drawerCategory" class="px-2.5 py-0.5 rounded text-[11px] font-mono uppercase bg-blue-500/15 text-blue-400 border border-blue-500/30">MUSTANG</span>
+          <span id="drawerYearBadge" class="text-xs font-mono text-gray-400">2025</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="drawerFavBtn"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/25 text-xs font-medium transition-colors">
+            <svg id="drawerFavIcon" class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span id="drawerFavText">Favorite</span>
+          </button>
+          <button id="closeDrawerBtn" class="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/[0.08]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Drawer Scrollable Body -->
+      <div class="flex-1 overflow-y-auto">
+        <!-- Hero Image -->
+        <div class="card-media">
+          <img id="drawerImg" src="" alt="" />
+          <div class="card-vignette"></div>
+          <div class="absolute bottom-4 left-6 right-6">
+            <h2 id="drawerTitle" class="text-2xl font-bold text-white tracking-tight"></h2>
+            <p id="drawerSubtitle" class="text-xs font-mono text-gray-300 mt-0.5"></p>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-6">
+          <!-- Interactive Exhaust Note Synthesizer Bar -->
+          <div class="p-4 rounded-xl bg-obsidian border border-white/[0.08] flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <button id="playExhaustBtn"
+                class="w-10 h-10 rounded-full bg-fordBlue hover:bg-fordBlueHover text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-600/30 transition-transform active:scale-95">
+                <svg id="playIcon" class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div>
+                <div class="text-xs font-semibold text-white">Play Exhaust Note</div>
+                <div id="drawerEngineAudioLabel" class="text-[11px] font-mono text-gray-400">5.2L Flat-Plane Crank V8</div>
+              </div>
+            </div>
+
+            <!-- Live EQ Visualizer -->
+            <div id="exhaustEq" class="flex items-end gap-1 h-7 px-2">
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+            </div>
+          </div>
+
+          <!-- Technical Specification Grid -->
+          <div>
+            <h3 class="text-[11px] font-mono uppercase tracking-wider text-gray-400 mb-3">Technical Specifications</h3>
+            <div id="drawerSpecGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <!-- Spec tiles injected dynamically -->
+            </div>
+          </div>
+
+          <!-- Historical Context -->
+          <div>
+            <h3 class="text-[11px] font-mono uppercase tracking-wider text-gray-400 mb-2">Engineering & Heritage</h3>
+            <p id="drawerHistory" class="text-sm text-gray-300 leading-relaxed"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="p-4 border-t border-white/[0.08] bg-obsidian/80 flex items-center justify-between">
+        <span class="text-xs font-mono text-gray-500">CHASSIS TELEMETRY VERIFIED</span>
+        <button id="drawerCompareBtn"
+          class="px-4 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-xs font-semibold text-white transition-colors">
+          + Add to Compare
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION SCRIPT -->
+  <script>
+    /**
+     * 1. DATASET: 10 Iconic Ford Performance Vehicles (1965–2028)
+     * Includes explicit archiveCount per category to match the 71-vehicle collection scale.
+     */
+    const CATEGORIES = [
+      { id: 'All', label: 'All Cars', archiveTotal: 71 },
+      { id: 'Mustang', label: 'Mustang', archiveTotal: 38 },
+      { id: 'Ford GT & Supercar', label: 'Ford GT & Supercar', archiveTotal: 9 },
+      { id: 'RS & Rally', label: 'RS & Rally', archiveTotal: 11 },
+      { id: 'Raptor & Off-Road', label: 'Raptor & Off-Road', archiveTotal: 8 },
+      { id: 'Future Concept', label: 'Future Concept', archiveTotal: 5 }
+    ];
+
+    const DECADES = [
+      { id: 'All', label: 'All', match: () => true },
+      { id: '60s', label: '60s', match: y => y >= 1960 && y <= 1969 },
+      { id: '70s', label: '70s', match: y => y >= 1970 && y <= 1979 },
+      { id: '80s-90s', label: '80s–90s', match: y => y >= 1980 && y <= 1999 },
+      { id: '2000s-10s', label: '2000s–10s', match: y => y >= 2000 && y <= 2019 },
+      { id: '2020s+', label: '2020s+', match: y => y >= 2020 }
+    ];
+
+    const VEHICLES = [
+      {
+        id: 'gt40-mkii-1966',
+        name: '1966 Ford GT40 Mk II',
+        subtitle: 'Le Mans 1-2-3 Sweep Prototype',
+        category: 'Ford GT & Supercar',
+        year: 1966,
+        hp: 485,
+        torque: '475 lb-ft',
+        zeroTo60: 4.2,
+        topSpeed: '212 mph',
+        engine: '7.0L FE 427 V8',
+        drivetrain: 'RWD • 4-Speed Kar-Kraft',
+        weight: '2,680 lbs',
+        exhaustPitch: 72,
+        image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=1200&q=80',
+        history: 'Engineered specifically to dethrone Ferrari at the 24 Hours of Le Mans, the 1966 GT40 Mk II paired a NASCAR-derived 427 cubic-inch V8 with radical aerodynamic stability, securing Ford’s historic 1-2-3 podium sweep.'
+      },
+      {
+        id: 'mustang-gt350r-1965',
+        name: '1965 Shelby GT350R',
+        subtitle: 'SCCA B-Production Factory Racer',
+        category: 'Mustang',
+        year: 1965,
+        hp: 360,
+        torque: '329 lb-ft',
+        zeroTo60: 5.2,
+        topSpeed: '150 mph',
+        engine: '4.7L HiPo 289 V8',
+        drivetrain: 'RWD • 4-Speed Borg-Warner',
+        weight: '2,550 lbs',
+        exhaustPitch: 85,
+        image: 'https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1200&q=80',
+        history: 'Carroll Shelby transformed the first-generation Mustang fastback into a stripped-out, fiberglass-hooded track weapon. Only 34 competition GT350R models were built, dominating SCCA championships for three consecutive seasons.'
+      },
+      {
+        id: 'escort-rs1800-1977',
+        name: '1977 Escort RS1800 Mk II',
+        subtitle: 'World Rally Championship Icon',
+        category: 'RS & Rally',
+        year: 1977,
+        hp: 250,
+        torque: '185 lb-ft',
+        zeroTo60: 5.4,
+        topSpeed: '132 mph',
+        engine: '2.0L Cosworth BDA I4',
+        drivetrain: 'RWD • 5-Speed ZF',
+        weight: '1,980 lbs',
+        exhaustPitch: 135,
+        image: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80',
+        history: 'Powered by Cosworth’s high-revving 16-valve BDA engine, the Escort RS1800 defined sideways gravel rally mastery in the late 1970s, capturing both Drivers’ and Manufacturers’ World Rally titles.'
+      },
+      {
+        id: 'rs200-evo-1986',
+        name: '1986 Ford RS200 Evolution',
+        subtitle: 'Group B Mid-Engine Homologation',
+        category: 'RS & Rally',
+        year: 1986,
+        hp: 600,
+        torque: '400 lb-ft',
+        zeroTo60: 2.8,
+        topSpeed: '165 mph',
+        engine: '2.1L Cosworth BDT-E Turbo',
+        drivetrain: 'AWD • 5-Speed Transaxle',
+        weight: '2,315 lbs',
+        exhaustPitch: 120,
+        image: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=1200&q=80',
+        history: 'Built exclusively for FIA Group B rally regulations with a carbon-aramid composite body designed by Ghia and a bespoke twin-driveshaft AWD layout, the RS200 Evo held the Guinness World Record for acceleration for over a decade.'
+      },
+      {
+        id: 'mustang-svt-cobra-r-1995',
+        name: '1995 SVT Mustang Cobra R',
+        subtitle: 'Track-Only SN95 Collector Special',
+        category: 'Mustang',
+        year: 1995,
+        hp: 300,
+        torque: '365 lb-ft',
+        zeroTo60: 5.1,
+        topSpeed: '154 mph',
+        engine: '5.8L Windsor 351 V8',
+        drivetrain: 'RWD • 5-Speed Tremec 3550',
+        weight: '3,325 lbs',
+        exhaustPitch: 80,
+        image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80',
+        history: 'Limited to 250 units sold strictly to competition license holders, the 1995 Cobra R deleted rear seats, radio, and air conditioning in favor of a 22-gallon fuel cell, Koni shocks, and a torquey 351 Windsor V8.'
+      },
+      {
+        id: 'ford-gt-2005',
+        name: '2005 Ford GT',
+        subtitle: 'Centennial Supercharged Supercar',
+        category: 'Ford GT & Supercar',
+        year: 2005,
+        hp: 550,
+        torque: '500 lb-ft',
+        zeroTo60: 3.3,
+        topSpeed: '205 mph',
+        engine: '5.4L Supercharged Modular V8',
+        drivetrain: 'RWD • 6-Speed Ricardo',
+        weight: '3,485 lbs',
+        exhaustPitch: 78,
+        image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1200&q=80',
+        history: 'Conceived to celebrate Ford’s 100th anniversary, the first-generation modern Ford GT combined superplastic-formed aluminum panels with a Lysholm twin-screw supercharged V8 capable of exceeding 200 mph.'
+      },
+      {
+        id: 'focus-rs-2017',
+        name: '2017 Ford Focus RS',
+        subtitle: 'Twinster Torque-Vectoring Hot Hatch',
+        category: 'RS & Rally',
+        year: 2017,
+        hp: 350,
+        torque: '350 lb-ft',
+        zeroTo60: 4.5,
+        topSpeed: '165 mph',
+        engine: '2.3L EcoBoost Twin-Scroll I4',
+        drivetrain: 'AWD • 6-Speed Manual',
+        weight: '3,434 lbs',
+        exhaustPitch: 112,
+        image: 'https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=1200&q=80',
+        history: 'The first Focus RS offered in North America introduced a GKN twin-clutch rear drive unit capable of routing up to 70% of torque to the rear axle—and 100% of that to a single wheel—enabling the industry-first Drift Mode.'
+      },
+      {
+        id: 'f150-raptor-r-2024',
+        name: '2024 F-150 Raptor R',
+        subtitle: 'Supercharged Baja Desert Predator',
+        category: 'Raptor & Off-Road',
+        year: 2024,
+        hp: 720,
+        torque: '640 lb-ft',
+        zeroTo60: 3.6,
+        topSpeed: '114 mph',
+        engine: '5.2L Supercharged Carnivore V8',
+        drivetrain: '4WD • 10-Speed SelectShift',
+        weight: '5,950 lbs',
+        exhaustPitch: 68,
+        image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80',
+        history: 'Equipped with a recalibrated Predator V8 from the Shelby GT500, 37-inch BFGoodrich KO2 tires, and FOX Dual Live Valve shocks, the Raptor R delivers trophy-truck suspension travel with 720 horsepower.'
+      },
+      {
+        id: 'mustang-gtd-2025',
+        name: '2025 Mustang GTD',
+        subtitle: 'Sub-7-Minute Nürburgring Street GT3',
+        category: 'Mustang',
+        year: 2025,
+        hp: 815,
+        torque: '664 lb-ft',
+        zeroTo60: 2.8,
+        topSpeed: '202 mph',
+        engine: '5.2L Supercharged V8 (7,650 RPM)',
+        drivetrain: 'RWD • 8-Speed Rear Transaxle',
+        weight: '3,850 lbs',
+        exhaustPitch: 92,
+        image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80',
+        history: 'Co-developed with Multimatic directly alongside the Mustang GT3 race car, the street-legal GTD features a carbon-fiber body, rear-mounted dual-clutch transaxle for 50:50 weight balance, and active hydraulic DRS aerodynamics.'
+      },
+      {
+        id: 'gt90-evo-concept-2028',
+        name: '2028 Ford GT-E Vision Concept',
+        subtitle: 'Next-Gen Tri-Motor Active Aero Prototype',
+        category: 'Future Concept',
+        year: 2028,
+        hp: 1180,
+        torque: '980 lb-ft',
+        zeroTo60: 1.9,
+        topSpeed: '228 mph',
+        engine: 'Hybrid Twin-Turbo V6 + Dual Axial EV',
+        drivetrain: 'e-AWD • Single-Speed Direct + 7-DCT',
+        weight: '3,120 lbs',
+        exhaustPitch: 105,
+        image: 'https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=1200&q=80',
+        history: 'Previewing Ford Performance’s 2028 flagship architecture, this concept pairs a high-revving 3.5L EcoBoost race block with twin front axial-flux electric motors and morphing carbon-ceramic underbody Venturi tunnels.'
+      }
+    ];
+
+    /**
+     * 2. APPLICATION STATE
+     */
+    const state = {
+      category: 'All',
+      decade: 'All',
+      search: '',
+      sort: 'year-desc',
+      onlyFavorites: false,
+      viewMode: 'grid', // 'grid' | 'list'
+      favorites: JSON.parse(localStorage.getItem('fp_saved_garage') || '["mustang-gtd-2025", "gt40-mkii-1966"]'),
+      compareIds: [],
+      activeDrawerId: null,
+      soundEnabled: true,
+      isPlayingExhaust: false
+    };
+
+    /**
+     * 3. WEB AUDIO API EXHAUST SYNTHESIZER
+     * Generates a realistic rumbling V8/turbo exhaust cadence without external audio assets.
+     */
+    let audioCtx = null;
+    let exhaustTimer = null;
+
+    function stopExhaustAudio() {
+      if (exhaustTimer) {
+        clearTimeout(exhaustTimer);
+        exhaustTimer = null;
+      }
+      state.isPlayingExhaust = false;
+      const eq = document.getElementById('exhaustEq');
+      const icon = document.getElementById('playIcon');
+      if (eq) eq.classList.remove('eq-playing');
+      if (icon) icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    }
+
+    function playExhaustNote(baseFreq = 85) {
+      if (!state.soundEnabled) {
+        alert('Enable "SFX ON" in the top-left sidebar to hear engine telemetry.');
+        return;
+      }
+      if (state.isPlayingExhaust) {
+        stopExhaustAudio();
+        return;
+      }
+
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      state.isPlayingExhaust = true;
+      document.getElementById('exhaustEq').classList.add('eq-playing');
+      document.getElementById('playIcon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+
+      const duration = 2.6;
+      const now = audioCtx.currentTime;
+
+      // Primary cylinder firing sawtooth + sub-bass rumble
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const filter = audioCtx.createBiquadFilter();
+      const gain = audioCtx.createGain();
+
+      osc1.type = 'sawtooth';
+      osc2.type = 'triangle';
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(320, now);
+
+      // Rev blip curve: idle -> throttle blip -> redline -> burble down
+      osc1.frequency.setValueAtTime(baseFreq * 0.65, now);
+      osc1.frequency.exponentialRampToValueAtTime(baseFreq * 2.4, now + 0.75);
+      osc1.frequency.exponentialRampToValueAtTime(baseFreq * 1.1, now + 1.3);
+      osc1.frequency.exponentialRampToValueAtTime(baseFreq * 2.9, now + 1.9);
+      osc1.frequency.exponentialRampToValueAtTime(baseFreq * 0.6, now + duration);
+
+      osc2.frequency.setValueAtTime(baseFreq * 0.325, now);
+      osc2.frequency.exponentialRampToValueAtTime(baseFreq * 1.2, now + 0.75);
+      osc2.frequency.exponentialRampToValueAtTime(baseFreq * 1.45, now + 1.9);
+      osc2.frequency.exponentialRampToValueAtTime(baseFreq * 0.3, now + duration);
+
+      filter.frequency.exponentialRampToValueAtTime(1100, now + 1.9);
+      filter.frequency.exponentialRampToValueAtTime(280, now + duration);
+
+      gain.gain.setValueAtTime(0.01, now);
+      gain.gain.linearRampToValueAtTime(0.22, now + 0.2);
+      gain.gain.setValueAtTime(0.2, now + 2.0);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + duration);
+      osc2.stop(now + duration);
+
+      exhaustTimer = setTimeout(() => {
+        stopExhaustAudio();
+      }, duration * 1000);
+    }
+
+    /**
+     * 4. FILTERING & SORTING ENGINE
+     */
+    function getFilteredVehicles() {
+      const decadeObj = DECADES.find(d => d.id === state.decade) || DECADES[0];
+      const q = state.search.trim().toLowerCase();
+
+      return VEHICLES
+        .filter(v => {
+          if (state.category !== 'All' && v.category !== state.category) return false;
+          if (!decadeObj.match(v.year)) return false;
+          if (state.onlyFavorites && !state.favorites.includes(v.id)) return false;
+          if (q) {
+            const haystack = `${v.name} ${v.subtitle} ${v.category} ${v.engine} ${v.year}`.toLowerCase();
+            if (!haystack.includes(q)) return false;
+          }
+          return true;
+        })
+        .sort((a, b) => {
+          switch (state.sort) {
+            case 'year-desc': return b.year - a.year;
+            case 'year-asc': return a.year - b.year;
+            case 'hp-desc': return b.hp - a.hp;
+            case 'zero60-asc': return a.zeroTo60 - b.zeroTo60;
+            case 'name-asc': return a.name.localeCompare(b.name);
+            default: return 0;
+          }
+        });
+    }
+
+    /**
+     * 5. RENDER FUNCTIONS
+     */
+    function renderSidebar() {
+      const nav = document.getElementById('categoryNav');
+      nav.innerHTML = CATEGORIES.map(cat => {
+        const active = state.category === cat.id;
+        return `
+          <button data-cat="${cat.id}"
+            class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-all ${
+              active
+                ? 'bg-fordBlue text-white shadow-md shadow-blue-600/20'
+                : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
+            }">
+            <span>${cat.label}</span>
+            <span class="font-mono text-[11px] px-2 py-0.5 rounded ${
+              active ? 'bg-black/25 text-white' : 'bg-white/[0.06] text-gray-400'
+            }">${cat.archiveTotal}</span>
+          </button>
+        `;
+      }).join('');
+
+      nav.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.category = btn.dataset.cat;
+          renderAll();
+        });
+      });
+    }
+
+    function renderEraPills() {
+      const container = document.getElementById('eraPills');
+      container.innerHTML = DECADES.map(d => {
+        const active = state.decade === d.id;
+        return `
+          <button data-decade="${d.id}"
+            class="px-3 py-1.5 rounded-full text-xs font-mono transition-all border shrink-0 ${
+              active
+                ? 'bg-fordBlue border-fordBlue text-white font-semibold'
+                : 'bg-surface border-white/[0.08] text-gray-400 hover:text-white hover:border-white/20'
+            }">
+            ${d.label}
+          </button>
+        `;
+      }).join('');
+
+      container.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.decade = btn.dataset.decade;
+          renderAll();
+        });
+      });
+    }
+
+    function renderFavoritesCounters() {
+      const count = state.favorites.length;
+      document.getElementById('headerFavCount').textContent = count;
+      document.getElementById('sidebarFavCount').textContent = count;
+
+      const headerBtn = document.getElementById('favoritesFilterBtn');
+      const headerIcon = document.getElementById('favHeaderIcon');
+      if (state.onlyFavorites) {
+        headerBtn.classList.add('border-rose-500/60', 'bg-rose-500/10', 'text-white');
+        headerIcon.classList.remove('text-gray-400');
+        headerIcon.classList.add('text-rose-500');
+      } else {
+        headerBtn.classList.remove('border-rose-500/60', 'bg-rose-500/10', 'text-white');
+        headerIcon.classList.add('text-gray-400');
+        headerIcon.classList.remove('text-rose-500');
+      }
+    }
+
+    function renderVehicles() {
+      const list = getFilteredVehicles();
+      document.getElementById('visibleCount').textContent = list.length;
+
+      const emptyState = document.getElementById('emptyState');
+      const grid = document.getElementById('vehicleGrid');
+      const listWrapper = document.getElementById('vehicleListWrapper');
+      const listBody = document.getElementById('vehicleListBody');
+
+      if (list.length === 0) {
+        emptyState.classList.remove('hidden');
+        grid.classList.add('hidden');
+        listWrapper.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      if (state.viewMode === 'grid') {
+        grid.classList.remove('hidden');
+        listWrapper.classList.add('hidden');
+
+        grid.innerHTML = list.map(v => {
+          const isCompared = state.compareIds.includes(v.id);
+          const isFav = state.favorites.includes(v.id);
+
+          return `
+            <article data-id="${v.id}"
+              class="vehicle-card group bg-surface border border-white/[0.08] hover:border-white/20 rounded-xl overflow-hidden flex flex-col cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.6)]">
+              
+              <!-- Standardized 16:10 Image + Vignette -->
+              <div class="card-media">
+                <img src="${v.image}" alt="${v.name}" loading="lazy" />
+                <div class="card-vignette"></div>
+
+                <!-- Top Floating Badges -->
+                <div class="absolute top-3 left-3 right-3 flex items-center justify-between">
+                  <span class="px-2.5 py-1 rounded-md bg-obsidian/80 backdrop-blur-md border border-white/10 text-[10px] font-mono uppercase tracking-wider text-gray-200">
+                    ${v.category}
+                  </span>
+
+                  <div class="flex items-center gap-1.5">
+                    <!-- Favorite Heart Toggle -->
+                    <button type="button" data-action="favorite" data-id="${v.id}" title="Save to Garage"
+                      class="w-8 h-8 rounded-lg bg-obsidian/80 backdrop-blur-md border border-white/10 hover:border-white/30 flex items-center justify-center transition-colors">
+                      <svg class="w-4 h-4 ${isFav ? 'text-rose-500' : 'text-gray-400 hover:text-white'}" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                      </svg>
+                    </button>
+
+                    <!-- Compare (+) Toggle -->
+                    <button type="button" data-action="compare" data-id="${v.id}" title="Add to Side-by-Side Comparison"
+                      class="w-8 h-8 rounded-lg backdrop-blur-md border font-mono text-sm font-bold flex items-center justify-center transition-all ${
+                        isCompared
+                          ? 'bg-fordBlue border-fordBlue text-white shadow-md shadow-blue-600/40'
+                          : 'bg-obsidian/80 border-white/10 text-gray-200 hover:border-fordBlue hover:text-white'
+                      }">
+                      ${isCompared ? '✓' : '+'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card Body -->
+              <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="text-base font-bold text-white group-hover:text-blue-400 transition-colors leading-snug">
+                    ${v.name}
+                  </h3>
+                  <p class="text-xs text-gray-400 mt-0.5 line-clamp-1">${v.subtitle}</p>
+                </div>
+
+                <!-- Compact 3-Stat Strip -->
+                <div class="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between">
+                  <div class="flex items-center gap-2 text-xs font-mono text-gray-300">
+                    <span class="text-white font-semibold">${v.hp} HP</span>
+                    <span class="text-gray-600">•</span>
+                    <span>${v.zeroTo60.toFixed(1)}s 0–60</span>
+                    <span class="text-gray-600">•</span>
+                    <span class="text-gray-400">${v.year}</span>
+                  </div>
+
+                  <span class="text-[11px] font-mono font-semibold text-blue-400 group-hover:translate-x-0.5 transition-transform">
+                    VIEW DETAILS →
+                  </span>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+      } else {
+        // LIST VIEW (Compact Sortable Table)
+        grid.classList.add('hidden');
+        listWrapper.classList.remove('hidden');
+
+        listBody.innerHTML = list.map(v => {
+          const isCompared = state.compareIds.includes(v.id);
+          const isFav = state.favorites.includes(v.id);
+
+          return `
+            <tr data-id="${v.id}" class="hover:bg-surfaceHover/80 cursor-pointer transition-colors group">
+              <td class="py-2.5 px-4 w-24">
+                <div class="w-20 aspect-[16/10] rounded-md overflow-hidden border border-white/10 bg-obsidian">
+                  <img src="${v.image}" alt="${v.name}" class="w-full h-full object-cover" />
+                </div>
+              </td>
+              <td class="py-2.5 px-4">
+                <div class="font-semibold text-white group-hover:text-blue-400 transition-colors">${v.name}</div>
+                <div class="text-xs text-gray-500 font-mono">${v.engine}</div>
+              </td>
+              <td class="py-2.5 px-4">
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono bg-white/[0.05] text-gray-300 border border-white/[0.08]">
+                  ${v.category}
+                </span>
+              </td>
+              <td class="py-2.5 px-4 font-mono text-xs text-gray-300">${v.year}</td>
+              <td class="py-2.5 px-4 font-mono text-xs font-semibold text-white">${v.hp} HP</td>
+              <td class="py-2.5 px-4 font-mono text-xs text-blue-400">${v.zeroTo60.toFixed(1)}s</td>
+              <td class="py-2.5 px-4 text-right">
+                <div class="inline-flex items-center gap-1.5">
+                  <button type="button" data-action="favorite" data-id="${v.id}"
+                    class="p-1.5 rounded-md border border-white/10 hover:border-white/25 bg-obsidian">
+                    <svg class="w-3.5 h-3.5 ${isFav ? 'text-rose-500' : 'text-gray-400'}" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                  </button>
+                  <button type="button" data-action="compare" data-id="${v.id}"
+                    class="w-7 h-7 rounded-md border font-mono text-xs font-bold ${
+                      isCompared
+                        ? 'bg-fordBlue border-fordBlue text-white'
+                        : 'bg-obsidian border-white/10 text-gray-300 hover:border-fordBlue'
+                    }">
+                    ${isCompared ? '✓' : '+'}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+    }
+
+    /**
+     * 6. COMPARISON DOCK & MODAL LOGIC
+     */
+    function renderCompareDock() {
+      const dock = document.getElementById('compareDock');
+      const slotsContainer = document.getElementById('compareSlots');
+      const badge = document.getElementById('compareCountBadge');
+      const openBtn = document.getElementById('openCompareModalBtn');
+
+      badge.textContent = state.compareIds.length;
+      openBtn.disabled = state.compareIds.length < 2;
+
+      if (state.compareIds.length === 0) {
+        dock.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+        return;
+      }
+
+      dock.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+
+      const slotsHtml = [0, 1, 2].map(idx => {
+        const id = state.compareIds[idx];
+        if (!id) {
+          return `
+            <div class="flex items-center gap-2 px-3 py-2 rounded-xl border border-dashed border-white/10 bg-obsidian/50 min-w-[150px] text-[11px] font-mono text-gray-500">
+              <span>+ Slot ${idx + 1}</span>
+            </div>
+          `;
+        }
+        const v = VEHICLES.find(item => item.id === id);
+        return `
+          <div class="flex items-center justify-between gap-2.5 px-2.5 py-1.5 rounded-xl bg-obsidian border border-white/10 min-w-[175px]">
+            <div class="flex items-center gap-2 overflow-hidden">
+              <img src="${v.image}" alt="${v.name}" class="w-10 h-6 object-cover rounded shrink-0" />
+              <div class="truncate">
+                <div class="text-xs font-semibold text-white truncate">${v.name}</div>
+                <div class="text-[10px] font-mono text-gray-400">${v.hp} HP • ${v.year}</div>
+              </div>
+            </div>
+            <button data-remove-compare="${v.id}" class="text-gray-500 hover:text-white text-xs px-1">✕</button>
+          </div>
+        `;
+      }).join('');
+
+      slotsContainer.innerHTML = slotsHtml;
+      slotsContainer.querySelectorAll('[data-remove-compare]').forEach(btn => {
+        btn.addEventListener('click', () => toggleCompare(btn.dataset.removeCompare));
+      });
+    }
+
+    function openCompareModal() {
+      const selected = state.compareIds.map(id => VEHICLES.find(v => v.id === id)).filter(Boolean);
+      if (selected.length < 2) return;
+
+      // Determine best performance numbers for row highlighting
+      const maxHp = Math.max(...selected.map(v => v.hp));
+      const minZero60 = Math.min(...selected.map(v => v.zeroTo60));
+      const maxTopSpeed = Math.max(...selected.map(v => parseInt(v.topSpeed, 10)));
+      const maxTorque = Math.max(...selected.map(v => parseInt(v.torque, 10)));
+
+      const rows = [
+        { label: 'Horsepower', render: v => `${v.hp} HP`, isBest: v => v.hp === maxHp },
+        { label: 'Torque', render: v => v.torque, isBest: v => parseInt(v.torque, 10) === maxTorque },
+        { label: '0–60 mph', render: v => `${v.zeroTo60.toFixed(1)} sec`, isBest: v => v.zeroTo60 === minZero60 },
+        { label: 'Top Speed', render: v => v.topSpeed, isBest: v => parseInt(v.topSpeed, 10) === maxTopSpeed },
+        { label: 'Powertrain', render: v => v.engine, isBest: () => false },
+        { label: 'Drivetrain', render: v => v.drivetrain, isBest: () => false },
+        { label: 'Curb Weight', render: v => v.weight, isBest: () => false },
+        { label: 'Model Year', render: v => v.year, isBest: () => false }
+      ];
+
+      const modalContent = document.getElementById('compareModalContent');
+      modalContent.innerHTML = `
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr>
+              <th class="p-3 w-36 text-xs font-mono uppercase text-gray-500">Metric</th>
+              ${selected.map(v => `
+                <th class="p-3 min-w-[200px]">
+                  <div class="card-media rounded-lg mb-2.5 border border-white/10">
+                    <img src="${v.image}" alt="${v.name}" />
+                  </div>
+                  <div class="text-sm font-bold text-white">${v.name}</div>
+                  <div class="text-[11px] font-mono text-gray-400">${v.category}</div>
+                </th>
+              `).join('')}
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/[0.08] text-sm">
+            ${rows.map(row => `
+              <tr>
+                <td class="p-3 font-mono text-xs text-gray-400">${row.label}</td>
+                ${selected.map(v => {
+                  const winner = row.isBest(v);
+                  return `
+                    <td class="p-3 font-mono text-xs ${
+                      winner
+                        ? 'text-blue-400 font-bold bg-blue-500/[0.08]'
+                        : 'text-gray-200'
+                    }">
+                      <div class="flex items-center gap-2">
+                        <span>${row.render(v)}</span>
+                        ${winner ? '<span class="px-1.5 py-0.5 text-[9px] uppercase rounded bg-fordBlue text-white">BEST</span>' : ''}
+                      </div>
+                    </td>
+                  `;
+                }).join('')}
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+
+      document.getElementById('compareModal').classList.remove('hidden');
+    }
+
+    /**
+     * 7. SLIDE-OVER VEHICLE DETAIL DRAWER
+     */
+    function openDetailDrawer(id) {
+      const v = VEHICLES.find(item => item.id === id);
+      if (!v) return;
+
+      stopExhaustAudio();
+      state.activeDrawerId = id;
+
+      document.getElementById('drawerCategory').textContent = v.category;
+      document.getElementById('drawerYearBadge').textContent = v.year;
+      document.getElementById('drawerImg').src = v.image;
+      document.getElementById('drawerTitle').textContent = v.name;
+      document.getElementById('drawerSubtitle').textContent = v.subtitle;
+      document.getElementById('drawerEngineAudioLabel').textContent = v.engine;
+      document.getElementById('drawerHistory').textContent = v.history;
+
+      const specs = [
+        { label: 'Horsepower', val: `${v.hp} HP` },
+        { label: 'Torque', val: v.torque },
+        { label: '0–60 MPH', val: `${v.zeroTo60.toFixed(1)}s` },
+        { label: 'Top Speed', val: v.topSpeed },
+        { label: 'Curb Weight', val: v.weight },
+        { label: 'Drivetrain', val: v.drivetrain }
+      ];
+
+      document.getElementById('drawerSpecGrid').innerHTML = specs.map(s => `
+        <div class="p-3 rounded-xl bg-obsidian border border-white/[0.08]">
+          <div class="text-[10px] font-mono uppercase text-gray-500">${s.label}</div>
+          <div class="text-sm font-mono font-bold text-white mt-1">${s.val}</div>
+        </div>
+      `).join('');
+
+      updateDrawerButtons();
+
+      const backdrop = document.getElementById('detailDrawerBackdrop');
+      const panel = document.getElementById('detailDrawerPanel');
+      backdrop.classList.remove('hidden');
+      requestAnimationFrame(() => {
+        backdrop.classList.remove('opacity-0');
+        panel.classList.remove('translate-x-full');
+      });
+    }
+
+    function updateDrawerButtons() {
+      if (!state.activeDrawerId) return;
+      const isFav = state.favorites.includes(state.activeDrawerId);
+      const isComp = state.compareIds.includes(state.activeDrawerId);
+
+      const favIcon = document.getElementById('drawerFavIcon');
+      const favText = document.getElementById('drawerFavText');
+      favIcon.classList.toggle('text-rose-500', isFav);
+      favIcon.classList.toggle('text-gray-400', !isFav);
+      favText.textContent = isFav ? 'Saved in Garage' : 'Favorite';
+
+      const compBtn = document.getElementById('drawerCompareBtn');
+      compBtn.textContent = isComp ? '✓ Selected for Compare' : '+ Add to Compare';
+      compBtn.classList.toggle('bg-fordBlue', isComp);
+    }
+
+    function closeDetailDrawer() {
+      stopExhaustAudio();
+      const backdrop = document.getElementById('detailDrawerBackdrop');
+      const panel = document.getElementById('detailDrawerPanel');
+      backdrop.classList.add('opacity-0');
+      panel.classList.add('translate-x-full');
+      setTimeout(() => {
+        backdrop.classList.add('hidden');
+        state.activeDrawerId = null;
+      }, 300);
+    }
+
+    /**
+     * 8. INTERACTION HANDLERS
+     */
+    function toggleFavorite(id) {
+      if (state.favorites.includes(id)) {
+        state.favorites = state.favorites.filter(item => item !== id);
+      } else {
+        state.favorites.push(id);
+      }
+      localStorage.setItem('fp_saved_garage', JSON.stringify(state.favorites));
+      renderFavoritesCounters();
+      renderVehicles();
+      updateDrawerButtons();
+    }
+
+    function toggleCompare(id) {
+      if (state.compareIds.includes(id)) {
+        state.compareIds = state.compareIds.filter(item => item !== id);
+      } else {
+        if (state.compareIds.length >= 3) {
+          state.compareIds.shift(); // Keep rolling window of max 3 vehicles
+        }
+        state.compareIds.push(id);
+      }
+      renderCompareDock();
+      renderVehicles();
+      updateDrawerButtons();
+    }
+
+    function setViewMode(mode) {
+      state.viewMode = mode;
+      const gridBtn = document.getElementById('gridViewBtn');
+      const listBtn = document.getElementById('listViewBtn');
+
+      if (mode === 'grid') {
+        gridBtn.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-fordBlue text-white transition-colors';
+        listBtn.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium text-gray-400 hover:text-white transition-colors';
+      } else {
+        listBtn.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-fordBlue text-white transition-colors';
+        gridBtn.className = 'flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium text-gray-400 hover:text-white transition-colors';
+      }
+      renderVehicles();
+    }
+
+    function renderAll() {
+      renderSidebar();
+      renderEraPills();
+      renderFavoritesCounters();
+      renderVehicles();
+      renderCompareDock();
+    }
+
+    /**
+     * 9. EVENT LISTENERS & INITIALIZATION
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Search & Sort
+      document.getElementById('searchInput').addEventListener('input', e => {
+        state.search = e.target.value;
+        renderVehicles();
+      });
+
+      document.getElementById('sortSelect').addEventListener('change', e => {
+        state.sort = e.target.value;
+        renderVehicles();
+      });
+
+      // Favorites Filter Toggle (Header + Sidebar shortcut)
+      const toggleFavFilter = () => {
+        state.onlyFavorites = !state.onlyFavorites;
+        renderFavoritesCounters();
+        renderVehicles();
+      };
+      document.getElementById('favoritesFilterBtn').addEventListener('click', toggleFavFilter);
+      document.getElementById('sidebarFavBtn').addEventListener('click', toggleFavFilter);
+
+      // Grid / List Toggle
+      document.getElementById('gridViewBtn').addEventListener('click', () => setViewMode('grid'));
+      document.getElementById('listViewBtn').addEventListener('click', () => setViewMode('list'));
+
+      // Table Column Sorting in List View
+      document.querySelectorAll('#vehicleListWrapper th[data-sort]').forEach(th => {
+        th.addEventListener('click', () => {
+          const key = th.dataset.sort;
+          const map = {
+            name: 'name-asc',
+            year: state.sort === 'year-desc' ? 'year-asc' : 'year-desc',
+            hp: 'hp-desc',
+            zero60: 'zero60-asc'
+          };
+          state.sort = map[key] || 'year-desc';
+          document.getElementById('sortSelect').value = state.sort;
+          renderVehicles();
+        });
+      });
+
+      // Delegated Clicks on Cards & List Rows
+      const handleCollectionClick = e => {
+        const actionBtn = e.target.closest('[data-action]');
+        if (actionBtn) {
+          e.stopPropagation();
+          const { action, id } = actionBtn.dataset;
+          if (action === 'favorite') toggleFavorite(id);
+          if (action === 'compare') toggleCompare(id);
+          return;
+        }
+        const cardOrRow = e.target.closest('[data-id]');
+        if (cardOrRow) {
+          openDetailDrawer(cardOrRow.dataset.id);
+        }
+      };
+
+      document.getElementById('vehicleGrid').addEventListener('click', handleCollectionClick);
+      document.getElementById('vehicleListBody').addEventListener('click', handleCollectionClick);
+
+      // Compare Dock & Modal Buttons
+      document.getElementById('clearCompareBtn').addEventListener('click', () => {
+        state.compareIds = [];
+        renderCompareDock();
+        renderVehicles();
+      });
+      document.getElementById('openCompareModalBtn').addEventListener('click', openCompareModal);
+      document.getElementById('closeCompareModalBtn').addEventListener('click', () => {
+        document.getElementById('compareModal').classList.add('hidden');
+      });
+      document.getElementById('compareModal').addEventListener('click', e => {
+        if (e.target.id === 'compareModal') e.target.classList.add('hidden');
+      });
+
+      // Drawer Buttons
+      document.getElementById('closeDrawerBtn').addEventListener('click', closeDetailDrawer);
+      document.getElementById('detailDrawerBackdrop').addEventListener('click', e => {
+        if (e.target.id === 'detailDrawerBackdrop') closeDetailDrawer();
+      });
+      document.getElementById('drawerFavBtn').addEventListener('click', () => {
+        if (state.activeDrawerId) toggleFavorite(state.activeDrawerId);
+      });
+      document.getElementById('drawerCompareBtn').addEventListener('click', () => {
+        if (state.activeDrawerId) toggleCompare(state.activeDrawerId);
+      });
+      document.getElementById('playExhaustBtn').addEventListener('click', () => {
+        const v = VEHICLES.find(item => item.id === state.activeDrawerId);
+        if (v) playExhaustNote(v.exhaustPitch);
+      });
+
+      // Master Sound Toggle
+      document.getElementById('masterSoundBtn').addEventListener('click', () => {
+        state.soundEnabled = !state.soundEnabled;
+        if (!state.soundEnabled) stopExhaustAudio();
+        document.getElementById('soundDot').className = `w-2 h-2 rounded-full ${state.soundEnabled ? 'bg-emerald-400' : 'bg-gray-600'}`;
+        document.getElementById('soundLabel').textContent = state.soundEnabled ? 'SFX ON' : 'SFX OFF';
+      });
+
+      // Reset Filters
+      document.getElementById('resetFiltersBtn').addEventListener('click', () => {
+        state.category = 'All';
+        state.decade = 'All';
+        state.search = '';
+        state.onlyFavorites = false;
+        document.getElementById('searchInput').value = '';
+        renderAll();
+      });
+
+      // Escape Key Closes Modal / Drawer
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          document.getElementById('compareModal').classList.add('hidden');
+          closeDetailDrawer();
+        }
+      });
+
+      // Boot
+      renderAll();
+    });
+  </script>
+</body>
+</html>
+

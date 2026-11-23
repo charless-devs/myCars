@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The FORD Collection — 71 Ford icons from the 1965 Mustang to the 2028 Mustang GTD, browsable by category, searchable and comparable.">
+  <meta name="theme-color" content="#0B0D11">
+  <title>The Collection – FORD</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+  <div class="progress-bar" aria-hidden="true"><span></span></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <aside class="sidebar" aria-label="Car categories">
+    <div class="sidebar-head">
+      <a class="brand" href="{{ url_for('home_page') }}" aria-label="FORD home">
+        <span class="brand-word">FORD</span>
+        <span class="brand-tag">Performance</span>
+      </a>
+      <div class="sidebar-tools">
+        <button class="theme-toggle magnetic" type="button" aria-label="Switch to dark theme"><span class="theme-icon" aria-hidden="true"></span></button>
+        <button class="sound-toggle magnetic" type="button" aria-label="Turn sound on" aria-pressed="false">
+          <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        </button>
+      </div>
+    </div>
+    <h2>Categories</h2>
+    <nav>
+      <ul class="brand-list" aria-label="Filter cars by category">
+        <li><button class="brand-filter active" type="button" data-category="All">All Cars <span class="brand-count" aria-hidden="true"></span></button></li>
+        <li><button class="brand-filter" type="button" data-category="Mustang">Mustang <span class="brand-count" aria-hidden="true"></span></button></li>
+        <li><button class="brand-filter" type="button" data-category="Performance">Performance <span class="brand-count" aria-hidden="true"></span></button></li>
+        <li><button class="brand-filter" type="button" data-category="Trucks &amp; SUVs">Trucks &amp; SUVs <span class="brand-count" aria-hidden="true"></span></button></li>
+        <li><button class="brand-filter" type="button" data-category="Sedans">Sedans <span class="brand-count" aria-hidden="true"></span></button></li>
+        <li><button class="brand-filter" type="button" data-category="Classics">Classics <span class="brand-count" aria-hidden="true"></span></button></li>
+        <li><button class="brand-filter" type="button" data-category="Rally">Rally <span class="brand-count" aria-hidden="true"></span></button></li>
+        <li><button class="brand-filter" type="button" data-category="Concepts">Concepts <span class="brand-count" aria-hidden="true"></span></button></li>
+        <li><button class="brand-filter" type="button" data-category="Electric">Electric <span class="brand-count" aria-hidden="true"></span></button></li>
+      </ul>
+    </nav>
+    <p class="sidebar-foot"><span>1965 — 2028</span>71 Ford icons</p>
+  </aside>
+
+  <main class="main-content">
+    <header class="dashboard-head">
+      <div>
+        <p class="eyebrow">The Collection</p>
+        <h1 id="brand-title">All Cars</h1>
+      </div>
+      <span class="car-count" id="car-count">71 vehicles</span>
+    </header>
+
+    <div class="catalog-toolbar" aria-label="Catalog controls">
+      <label class="search-control">
+        <span class="sr-only">Search cars</span>
+        <input id="car-search" type="search" placeholder="Search the collection" autocomplete="off">
+      </label>
+      <label class="sort-control">
+        <span>Sort</span>
+        <select id="car-sort" aria-label="Sort cars">
+          <option value="index">Collection</option>
+          <option value="name">Name</option>
+          <option value="year-desc">Newest</option>
+          <option value="year-asc">Oldest</option>
+          <option value="power">Most powerful</option>
+          <option value="speed">Fastest 0–60</option>
+        </select>
+      </label>
+      <button class="favorites-filter" id="favorites-filter" type="button" aria-pressed="false">Favorites <span id="favorite-count">0</span></button>
+      <div class="view-controls" aria-label="View style">
+        <button class="view-button active" type="button" data-view="grid" aria-label="Grid view" aria-pressed="true">Grid</button>
+        <button class="view-button" type="button" data-view="list" aria-label="List view" aria-pressed="false">List</button>
+      </div>
+    </div>
+    <div class="compare-tray" id="compare-tray" aria-live="polite" hidden>
+      <div><strong id="compare-count">0 selected</strong><span>Choose up to 3 cars</span></div>
+      <button id="compare-clear" type="button">Clear</button>
+      <button id="compare-open" type="button" disabled>Compare</button>
+    </div>
+
+    <div class="mustang-generations" id="mustang-generations" hidden></div>
+    <p class="generation-empty" id="generation-empty" hidden>No Mustangs match these filters.</p>
+    <div class="car-grid" id="car-grid">
+      <button class="car-card tilt-card reveal" type="button" data-category="Mustang" data-car-id="ford-mustang-1965" aria-label="View Ford Mustang 289 details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/1965_Ford_Mustang_2D_Hardtop_Front.jpg?width=900" alt="1965 Ford Mustang 289" loading="lazy" decoding="async"><span class="card-index">01</span></span>
+        <span class="card-copy"><strong>Ford Mustang 289 (1965)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Classics" data-car-id="ford-torino-1969" aria-label="View Ford Torino Cobra Jet details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/1970_ford_torino_cobra_sportsroof_chiolero.jpg?width=900" alt="Ford Torino Cobra Jet" loading="lazy" decoding="async"><span class="card-index">02</span></span>
+        <span class="card-copy"><strong>Ford Torino Cobra Jet (1969)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Classics" data-car-id="ford-falcon-1971" aria-label="View Ford Falcon XY GTHO details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Falcon_XY_GTHO_%2814951352747%29.jpg?width=900" alt="Ford Falcon XY GTHO" loading="lazy" decoding="async"><span class="card-index">03</span></span>
+        <span class="card-copy"><strong>Ford Falcon XY GTHO (1971)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Rally" data-car-id="ford-rs200-1985" aria-label="View Ford RS200 details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/White_Ford_RS200.jpg?width=900" alt="Ford RS200" loading="lazy" decoding="async"><span class="card-index">04</span></span>
+        <span class="card-copy"><strong>Ford RS200 (1985)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Classics" data-car-id="ford-sierra-1986" aria-label="View Ford Sierra RS Cosworth details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/1986_Ford_Sierra_RS_Cosworth_2.0_%281%29.jpg?width=900" alt="Ford Sierra RS Cosworth" loading="lazy" decoding="async"><span class="card-index">05</span></span>
+        <span class="card-copy"><strong>Ford Sierra RS Cosworth (1986)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Concepts" data-car-id="ford-gt90-1995" aria-label="View Ford GT90 Concept details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/1995_Ford_GT90_Petersen_Automotive_Museum.jpg?width=900" alt="Ford GT90 Concept" loading="lazy" decoding="async"><span class="card-index">06</span></span>
+        <span class="card-copy"><strong>Ford GT90 Concept (1995)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Performance" data-car-id="ford-gt-2017" aria-label="View Ford GT details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_GT_2018_and_Ford_GT_1968_at_Legendy_2019_in_Prague_%28cropped%29.jpg?width=900" alt="Ford GT" loading="lazy" decoding="async"><span class="card-index">07</span></span>
+        <span class="card-copy"><strong>Ford GT (2017)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Mustang" data-car-id="ford-mustang-gt-2021" aria-label="View Ford Mustang GT details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Mustang_VII_GT_Rutesheimer_Autoschau_2025_DSC_9234.jpg?width=900" alt="Ford Mustang GT" loading="lazy" decoding="async"><span class="card-index">08</span></span>
+        <span class="card-copy"><strong>Ford Mustang GT (2021)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Mustang" data-car-id="ford-mustang-dark-horse" aria-label="View 2024 Ford Mustang Dark Horse details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Seventh_generation_2024_Ford_Mustang_%28cropped%29.jpg?width=900" alt="Ford Mustang Dark Horse" loading="lazy" decoding="async"><span class="card-index">09</span></span>
+        <span class="card-copy"><strong>2024 Ford Mustang Dark Horse</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Electric" data-car-id="ford-mach-e-2023" aria-label="View Ford Mustang Mach-E GT details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/2021_Ford_Mustang_Mach-E_Standard_Range_Front.jpg?width=900" alt="Ford Mustang Mach-E" loading="lazy" decoding="async"><span class="card-index">10</span></span>
+        <span class="card-copy"><strong>Ford Mustang Mach-E GT (2023)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Trucks &amp; SUVs" data-car-id="ford-f150-raptor-2014" aria-label="View Ford F-150 SVT Raptor details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/FORD_F-150_SVT_RAPTOR_China.jpg?width=900" alt="Ford F-150 SVT Raptor" loading="lazy" decoding="async"><span class="card-index">11</span></span>
+        <span class="card-copy"><strong>Ford F-150 SVT Raptor (2014)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Trucks &amp; SUVs" data-car-id="ford-bronco-2021" aria-label="View Ford Bronco details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Bronco_%286th_generation%29_Outer_Banks_1X7A0384.jpg?width=900" alt="Ford Bronco" loading="lazy" decoding="async"><span class="card-index">12</span></span>
+        <span class="card-copy"><strong>Ford Bronco (2021)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Trucks &amp; SUVs" data-car-id="ford-ranger-raptor-2023" aria-label="View Ford Ranger Raptor details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Ranger_Raptor_-_20231003-P1003802.jpg?width=900" alt="Ford Ranger Raptor" loading="lazy" decoding="async"><span class="card-index">13</span></span>
+        <span class="card-copy"><strong>Ford Ranger Raptor (2023)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Trucks &amp; SUVs" data-car-id="ford-explorer-st-2024" aria-label="View Ford Explorer ST details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Explorer_%28sixth_generation%29_IMG_6063.jpg?width=900" alt="Ford Explorer ST" loading="lazy" decoding="async"><span class="card-index">14</span></span>
+        <span class="card-copy"><strong>Ford Explorer ST (2024)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Trucks &amp; SUVs" data-car-id="ford-edge-st-2019" aria-label="View Ford Edge ST details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/2019_Ford_Edge_SEL_EcoBoost_AWD_2.0L_front_4.6.19.jpg?width=900" alt="Ford Edge ST" loading="lazy" decoding="async"><span class="card-index">15</span></span>
+        <span class="card-copy"><strong>Ford Edge ST (2019)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Performance" data-car-id="ford-focus-rs-2017" aria-label="View Ford Focus RS details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Focus_RS_Mk_III_DSC_8314.jpg?width=900" alt="Ford Focus RS" loading="lazy" decoding="async"><span class="card-index">16</span></span>
+        <span class="card-copy"><strong>Ford Focus RS (2017)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Performance" data-car-id="ford-fiesta-st-2019" aria-label="View Ford Fiesta ST details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Fiesta_ST_MK7_Facelift_1X7A5778.jpg?width=900" alt="Ford Fiesta ST" loading="lazy" decoding="async"><span class="card-index">17</span></span>
+        <span class="card-copy"><strong>Ford Fiesta ST (2019)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Performance" data-car-id="ford-puma-st-2021" aria-label="View Ford Puma ST details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Puma_ST_1X7A0331.jpg?width=900" alt="Ford Puma ST" loading="lazy" decoding="async"><span class="card-index">18</span></span>
+        <span class="card-copy"><strong>Ford Puma ST (2021)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Performance" data-car-id="ford-fpv-gt-2013" aria-label="View Ford FPV GT details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/FPV_FG_GT.jpg?width=900" alt="Ford FPV GT" loading="lazy" decoding="async"><span class="card-index">19</span></span>
+        <span class="card-copy"><strong>Ford FPV GT (2013)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Sedans" data-car-id="ford-mondeo-2019" aria-label="View Ford Mondeo ST-Line details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_Mondeo_Turnier_2.0_EcoBlue_ST-Line_%28V%2C_Facelift%29_%E2%80%93_f_18042021.jpg?width=900" alt="Ford Mondeo ST-Line" loading="lazy" decoding="async"><span class="card-index">20</span></span>
+        <span class="card-copy"><strong>Ford Mondeo ST-Line (2019)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Sedans" data-car-id="ford-fusion-sport-2017" aria-label="View Ford Fusion Sport details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/2019_Ford_Fusion_Titanium_Energi%2C_front_2.29.20.jpg?width=900" alt="Ford Fusion Sport" loading="lazy" decoding="async"><span class="card-index">21</span></span>
+        <span class="card-copy"><strong>Ford Fusion Sport (2017)</strong><span class="card-meta"></span></span>
+      </button>
+      <button class="car-card tilt-card reveal" type="button" data-category="Sedans" data-car-id="ford-taurus-sho-2010" aria-label="View Ford Taurus SHO details">
+        <span class="card-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/2010_Ford_Taurus_SHO_--_09-07-2009.jpg?width=900" alt="Ford Taurus SHO" loading="lazy" decoding="async"><span class="card-index">22</span></span>
+        <span class="card-copy"><strong>Ford Taurus SHO (2010)</strong><span class="card-meta"></span></span>
+      </button>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="car-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-panel">
+      <button class="modal-close" type="button" aria-label="Close details">×</button>
+      <div class="modal-media"><img id="modal-image" alt=""><span id="modal-index"></span></div>
+      <div class="modal-content">
+        <p class="eyebrow" id="modal-brand"></p>
+        <h2 id="modal-title"></h2>
+        <dl class="modal-specs">
+          <div><dt>Engine</dt><dd id="modal-engine"></dd></div>
+          <div><dt>Power</dt><dd id="modal-power"></dd></div>
+          <div><dt>Year</dt><dd id="modal-year"></dd></div>
+          <div><dt>0–60 mph</dt><dd id="modal-speed"></dd></div>
+        </dl>
+        <p class="modal-description" id="modal-description"></p>
+        <div class="tech-list" id="modal-tech"></div>
+        <a class="source-link" id="modal-source" href="https://en.wikipedia.org/wiki/Ford_Motor_Company" target="_blank" rel="noopener">View on Wikipedia ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-text"></span></div>
+
+  <script src="{{ url_for('static', filename='js/site.js') }}" defer></script>
+</body>
+</html>

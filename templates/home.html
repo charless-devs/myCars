@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FORD — a curated collection of 71 Ford icons, from the 1965 Mustang to the 2028 Mustang GTD.">
+  <meta name="theme-color" content="#071a35">
+  <title>FORD – Performance Heritage Collection</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/homestyle.css') }}">
+</head>
+<body>
+  <div class="progress-bar" aria-hidden="true"><span></span></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <header class="hero" id="home">
+    <nav class="navbar" aria-label="Primary navigation">
+      <a class="logo magnetic" href="#home" aria-label="FORD home">
+        <span class="logo-word">FORD</span>
+        <span class="logo-tag">Performance</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span>
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a class="nav-link active magnetic" href="#home">Home</a></li>
+        <li><a class="nav-link magnetic" href="#about">Heritage</a></li>
+        <li><a class="nav-link magnetic" href="#timeline">Timeline</a></li>
+        <li><a class="nav-link magnetic" href="#more-info">Features</a></li>
+        <li><a class="nav-link magnetic" href="#contact">Contact</a></li>
+      </ul>
+      <button class="theme-toggle magnetic" type="button" aria-label="Switch to dark theme">
+        <span class="theme-icon" aria-hidden="true"></span>
+      </button>
+      <button class="sound-toggle magnetic" type="button" aria-label="Turn sound on" aria-pressed="false">
+        <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+      </button>
+    </nav>
+
+    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline>
+      <source src="{{ url_for('static', filename='videos/mustang.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+    <video class="intro-video" autoplay playsinline webkit-playsinline preload="auto" aria-hidden="true">
+      <source src="{{ url_for('static', filename='videos/mustangintro.mp4') }}" type="video/mp4">
+    </video>
+    <button class="intro-audio-toggle" type="button" aria-label="Turn intro sound off" aria-pressed="true">
+      <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <button class="intro-skip" type="button">Skip intro</button>
+
+    <div class="hero-content">
+      <p class="eyebrow"><span class="eyebrow-rule" aria-hidden="true"></span>Est. 1903 — Detroit, Michigan</p>
+      <h1>FORD</h1>
+      <p>From the 1965 Mustang to the 2028 Mustang GTD — seventy-one Ford icons, documented in obsessive detail.</p>
+      <div class="hero-actions">
+        <a href="{{ url_for('dashboard_page') }}" class="btn btn-primary magnetic"><span>Explore the Collection</span><b aria-hidden="true">↗</b></a>
+        <a href="#timeline" class="btn btn-ghost magnetic"><span>Our Timeline</span></a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>Founded</dt><dd>1903</dd></div>
+        <div><dt>Collection</dt><dd>71 Cars</dd></div>
+        <div><dt>Span</dt><dd>1965–2028</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="section about">
+      <div class="section-index reveal"><span>01</span><span>Heritage</span></div>
+      <div class="about-layout">
+        <h2 class="reveal">Six Decades of American Motion</h2>
+        <p class="reveal">Ford put the world on wheels — and the Mustang put performance within reach of everyone. This collection carries that legacy from the very beginning: the 1965 fastback that started it all, through the legends of the eighties and nineties, to the electrified and supercharged machines of today.</p>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Bronco</span><span>·</span><span>Mondeo</span><span>·</span><span>Mustang</span><span>·</span><span>Concepts</span><span>·</span><span>Edge</span><span>·</span><span>Explorer</span><span>·</span><span>F-150</span><span>·</span><span>Falcon</span><span>·</span><span>Fiesta</span><span>·</span><span>Focus</span><span>·</span><span>Mustang Mach-E</span><span>·</span><span>Puma</span><span>·</span><span>FPV</span><span>·</span><span>Rally</span><span>·</span><span>Fusion</span><span>·</span><span>Ranger</span><span>·</span><span>RS200</span><span>·</span><span>GT</span><span>·</span><span>Sierra</span><span>·</span><span>Taurus</span><span>·</span><span>Torino</span><span>·</span>
+          <span>Bronco</span><span>·</span><span>Mondeo</span><span>·</span><span>Mustang</span><span>·</span><span>Concepts</span><span>·</span><span>Edge</span><span>·</span><span>Explorer</span><span>·</span><span>F-150</span><span>·</span><span>Falcon</span><span>·</span><span>Fiesta</span><span>·</span><span>Focus</span><span>·</span><span>Mustang Mach-E</span><span>·</span><span>Puma</span><span>·</span><span>FPV</span><span>·</span><span>Rally</span><span>·</span><span>Fusion</span><span>·</span><span>Ranger</span><span>·</span><span>RS200</span><span>·</span><span>GT</span><span>·</span><span>Sierra</span><span>·</span><span>Taurus</span><span>·</span><span>Torino</span><span>·</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline" class="section timeline">
+      <div class="section-index reveal"><span>02</span><span>1965 — Today</span></div>
+      <div class="about-layout">
+        <h2 class="reveal">1965 to the Latest</h2>
+        <p class="reveal">Every era has its moment. Follow the line from the World's Fair debut to the machines rolling off the line today.</p>
+      </div>
+      <ol class="timeline-list">
+        <li class="timeline-row reveal">
+          <span class="timeline-year">1965</span>
+          <div class="timeline-copy"><h3>The Mustang Is Born</h3><p>Unveiled on April 17 at the New York World's Fair, the 289-powered Mustang creates an entirely new class of car.</p></div>
+        </li>
+        <li class="timeline-row reveal">
+          <span class="timeline-year">1969</span>
+          <div class="timeline-copy"><h3>Torino Cobra Jet</h3><p>Ford's mid-size muscle answers the drag strip with the 428 Cobra Jet and Ram Air induction.</p></div>
+        </li>
+        <li class="timeline-row reveal">
+          <span class="timeline-year">1971</span>
+          <div class="timeline-copy"><h3>Falcon XY GTHO Phase III</h3><p>Australia's most famous homologation special takes the 351 Cleveland to Bathurst victory.</p></div>
+        </li>
+        <li class="timeline-row reveal">
+          <span class="timeline-year">1985</span>
+          <div class="timeline-copy"><h3>RS200 — Group B</h3><p>A mid-engined, all-wheel-drive rally weapon built for the most extreme era of motorsport.</p></div>
+        </li>
+        <li class="timeline-row reveal">
+          <span class="timeline-year">1995</span>
+          <div class="timeline-copy"><h3>GT90 Concept</h3><p>Quad-turbo V12, carbon fibre body — Ford's "world's fastest supercar" concept pushes design into the future.</p></div>
+        </li>
+        <li class="timeline-row reveal">
+          <span class="timeline-year">2016</span>
+          <div class="timeline-copy"><h3>Ford GT Returns to Le Mans</h3><p>Fifty years after the legendary 1-2-3 finish of 1966, the EcoBoost-powered GT wins its class again.</p></div>
+        </li>
+        <li class="timeline-row reveal">
+          <span class="timeline-year">2021</span>
+          <div class="timeline-copy"><h3>Bronco Reborn, Mustang Electrified</h3><p>Two icons return at once — the off-road Bronco and the all-electric Mustang Mach-E.</p></div>
+        </li>
+        <li class="timeline-row reveal">
+          <span class="timeline-year">2024</span>
+          <div class="timeline-copy"><h3>Dark Horse &amp; Raptor R</h3><p>500 horsepower in the Mustang Dark Horse. 720 in the F-150 Raptor R. The legend keeps growing.</p></div>
+        </li>
+        <li class="timeline-row reveal">
+          <span class="timeline-year">2026</span>
+          <div class="timeline-copy"><h3>The Latest</h3><p>Mustang, Ranger, F-150 and Puma carry the blue oval forward — the story is still being written.</p></div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="featured" class="section featured">
+      <div class="section-index reveal"><span>03</span><span>The Icons</span></div>
+      <div class="featured-grid">
+        <a class="featured-card tilt-card reveal" href="{{ url_for('dashboard_page') }}" aria-label="View the Ford GT in the collection">
+          <span class="featured-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ford_GT_2018_and_Ford_GT_1968_at_Legendy_2019_in_Prague_%28cropped%29.jpg?width=900" alt="Ford GT" loading="lazy" decoding="async"></span>
+          <span class="featured-copy">
+            <span class="featured-year">2017 · 660 hp</span>
+            <strong>Ford GT</strong>
+            <span class="featured-cta">View details ↗</span>
+          </span>
+        </a>
+        <a class="featured-card tilt-card reveal" href="{{ url_for('dashboard_page') }}" aria-label="View the Mustang Dark Horse in the collection">
+          <span class="featured-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Seventh_generation_2024_Ford_Mustang_%28cropped%29.jpg?width=900" alt="Ford Mustang Dark Horse" loading="lazy" decoding="async"></span>
+          <span class="featured-copy">
+            <span class="featured-year">2024 · 500 hp</span>
+            <strong>Mustang Dark Horse</strong>
+            <span class="featured-cta">View details ↗</span>
+          </span>
+        </a>
+        <a class="featured-card tilt-card reveal" href="{{ url_for('dashboard_page') }}" aria-label="View the F-150 Raptor in the collection">
+          <span class="featured-media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/FORD_F-150_SVT_RAPTOR_China.jpg?width=900" alt="Ford F-150 SVT Raptor" loading="lazy" decoding="async"></span>
+          <span class="featured-copy">
+            <span class="featured-year">2014 · 411 hp</span>
+            <strong>F-150 SVT Raptor</strong>
+            <span class="featured-cta">View details ↗</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <section id="more-info" class="section info">
+      <div class="section-index reveal"><span>04</span><span>Features</span></div>
+      <div class="features-grid">
+        <article class="feature-card tilt-card reveal">
+          <div class="feature-number">01</div>
+          <h3>Power &amp; Performance</h3>
+          <p>Engine architecture, output, acceleration and top-speed figures — every number verified and presented without compromise.</p>
+          <span class="feature-arrow" aria-hidden="true">↗</span>
+        </article>
+        <article class="feature-card tilt-card reveal">
+          <div class="feature-number">02</div>
+          <h3>Design &amp; Innovation</h3>
+          <p>Surface, proportion and aerodynamics — the visual language that separates a great Ford from a legendary one.</p>
+          <span class="feature-arrow" aria-hidden="true">↗</span>
+        </article>
+        <article class="feature-card tilt-card reveal">
+          <div class="feature-number">03</div>
+          <h3>Heritage &amp; Craft</h3>
+          <p>Hand-finished materials, stitching, carbon and leather — the quiet details that define a truly premium cabin.</p>
+          <span class="feature-arrow" aria-hidden="true">↗</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <p class="cta-kicker reveal">71 cars · 1965 — 2028</p>
+      <h2 class="reveal">Find your next legend.</h2>
+      <a class="btn btn-primary magnetic reveal" href="{{ url_for('dashboard_page') }}"><span>Open the Collection</span><b aria-hidden="true">↗</b></a>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="footer-top">
+      <p class="footer-kicker">Stay connected</p>
+      <h2>FORD</h2>
+      <p class="footer-tagline">Built for those who never lift.</p>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 FORD. All rights reserved.</p>
+      <div class="social" aria-label="Social media links">
+        <a class="magnetic" href="https://www.facebook.com" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+        <a class="magnetic" href="https://www.instagram.com" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+        <a class="magnetic" href="https://www.twitter.com" target="_blank" rel="noopener" aria-label="Twitter">X</a>
+        <a class="magnetic" href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">TK</a>
+        <a class="magnetic" href="https://www.linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+        <a class="magnetic" href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/site.js') }}" defer></script>
+</body>
+</html>
