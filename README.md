@@ -136,3 +136,7 @@ Users can select up to three vehicles and open a comparison modal that combines 
 ## Vehicle Detail Modal
 
 Selecting a vehicle opens a focused detail view with an image, performance specifications, description, highlights, and a reference source link.
+
+## Mustang Generation View
+
+When Mustang is selected, models are organized into generation sections for the first, third, fourth, fifth, sixth, and seventh generations.
