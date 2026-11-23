@@ -144,3 +144,7 @@ When Mustang is selected, models are organized into generation sections for the 
 ## Theme Support
 
 The interface follows the saved theme preference when available and otherwise uses the operating system color scheme. Theme changes are persisted locally.
+
+## Responsive Layout
+
+The sidebar becomes a horizontal category selector on smaller screens. Catalog cards switch from grid layouts to a reduced-width mobile layout.
