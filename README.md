@@ -176,3 +176,7 @@ Flask 404 and 500 handlers use a branded Ford error template instead of displayi
 ## Customizing the Catalog
 
 Add a vehicle by extending the cars array or Mustang model list in static/site.js, then provide matching category and image information.
+
+## Local Verification
+
+Run the Flask test client to verify the home and dashboard routes return successful responses before committing UI changes.
