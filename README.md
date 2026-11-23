@@ -128,3 +128,7 @@ The collection can be ordered by catalog position, name, newest model year, olde
 ## Favorites
 
 Favorite selections are stored in the browser with local storage. The Favorites view hides all models that are not in the saved list.
+
+## Vehicle Comparison
+
+Users can select up to three vehicles and open a comparison modal that combines engine, power, year, acceleration, and feature information.
