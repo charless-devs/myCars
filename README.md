@@ -140,3 +140,7 @@ Selecting a vehicle opens a focused detail view with an image, performance speci
 ## Mustang Generation View
 
 When Mustang is selected, models are organized into generation sections for the first, third, fourth, fifth, sixth, and seventh generations.
+
+## Theme Support
+
+The interface follows the saved theme preference when available and otherwise uses the operating system color scheme. Theme changes are persisted locally.
